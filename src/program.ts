@@ -1,9 +1,27 @@
 // deno-lint-ignore-file no-explicit-any
+
+const ProgramFinished = Symbol('ProgramFinished');
+type ProgramFinished = typeof ProgramFinished;
+const ProgramCalled = Symbol('ProgramCalled');
+type ProgramCalled = typeof ProgramCalled;
+
+type StepResult = ProgramFinished | ProgramCalled | unknown;
+
 interface Program<T, U> {
    <V>(fn: (state: U) => V): Program<T, V>;
+   step: () => StepResult;
    run: (a: T) => U;
    trace: (a: T) => unknown[];
    transitions: ((state: any) => unknown)[];
+   currentState: StepResult;
+}
+
+function call<T, U>(p: () => Program<T, U>) {
+   function makeCall() {
+      return p();
+   }
+   makeCall.isCall = true as const;
+   return makeCall as unknown as { (state: T): U; isCall: true };
 }
 
 function Program<T>(): Program<T, T> {
@@ -13,21 +31,42 @@ function Program<T>(): Program<T, T> {
    }
 
    transition.transitions = [] as ((state: any) => unknown)[];
+   transition.currentState = ProgramFinished as StepResult;
 
-   transition.run = (a: T) =>
-      transition.transitions.reduce<unknown>((state, fn) => {
-         console.log({ state });
-         return fn(state);
-      }, a) as T;
+   transition.step = () => {
+      const fn = transition.transitions.shift();
+      if (fn === undefined) {
+         return ProgramFinished;
+      }
+      if (fn.hasOwnProperty('isCall')) {
+         const called = (fn as any)();
+         transition.transitions.push(...called.transitions);
+         return ProgramCalled;
+      }
+      return fn(transition.currentState);
+   };
 
-   transition.trace = (a: T) =>
-      transition.transitions.reduce<unknown[]>(
-         (states, fn) => {
-            states.push(fn(states[states.length - 1]));
-            return states;
-         },
-         [a]
-      );
+   transition.run = (a: T, effect?: (x: unknown) => void) => {
+      transition.currentState = a;
+      while (true) {
+         if (effect) {
+            effect(transition.currentState);
+         }
+         const result = transition.step();
+         if (result === ProgramFinished) {
+            return transition.currentState as T;
+         }
+         if (result !== ProgramCalled) {
+            transition.currentState = result;
+         }
+      }
+   };
+
+   transition.trace = (a: T) => {
+      const states: unknown[] = [];
+      transition.run(a, (x) => states.push(x));
+      return states;
+   };
 
    return transition;
 }
@@ -118,20 +157,17 @@ const factorial = induction(
    (n: number) => n > 0,
    Program(),
    Program<[number, number]>()(([n, acc]) => tuple(n - 1, acc * n))
-)
+);
 
-function factorial_manual(n: number): number {
-   const program = Program<[number, number]>()(([n, acc]) =>
-      tuple(n - 1, acc * n)
-   );
+function factorial_manual(n: number): unknown[] {
    const fact: () => Program<[number, number], number> = () =>
       cond(
-         program,
+    Program<[number, number]>()(([n, acc]) => tuple(n - 1, acc * n)),
          ([n]) => n > 0,
-         Program<[number, number]>()((x) => fact().run(x)),
+         Program<[number, number]>()(call(fact)),
          Program<[number, number]>()(([_, acc]) => acc)
       );
-   return fact().run(tuple(n, 1));
+   return fact().trace(tuple(n, 1));
 }
 
 //         Program<[number, number]>()((x) => eager(fact())(x)),
@@ -139,4 +175,9 @@ function tuple<A, B>(a: A, b: B): [A, B] {
    return [a, b];
 }
 
-console.log(factorial.run(5));
+console.log(factorial.trace(5));
+
+const foo = Program<number>()(call(() => program))(call(() => program2));
+console.log(foo.trace(1234));
+
+console.log(factorial_manual(5));
