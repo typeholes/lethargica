@@ -7,13 +7,33 @@ type ProgramCalled = typeof ProgramCalled;
 
 type StepResult = ProgramFinished | ProgramCalled | unknown;
 
+function cond<A, B, C, D, E, F>(
+   f: Program<A, B>,
+   pred: (b: B) => boolean,
+   onTrue: Program<B, C>,
+   onFalse: Program<B, D>
+): Program<A, E | F> {
+   const program = Program<A>();
+   program.transitions = [
+      ...f.transitions,
+      (b: B) => (pred(b) ? onTrue.run(b) : onFalse.run(b)),
+   ];
+   return program as unknown as Program<A, E | F>;
+}
+
 interface Program<T, U> {
    <V>(fn: (state: U) => V): Program<T, V>;
    step: () => StepResult;
-   run: (a: T) => U;
+   run: (a: T, effect?: (x: unknown) => void) => U;
    trace: (a: T) => unknown[];
    transitions: ((state: any) => unknown)[];
    currentState: StepResult;
+   transitionIdx: number;
+   cond: <C, D>(
+      pred: (b: U) => boolean,
+      onTrue: Program<U, C>,
+      onFalse: Program<U, D>
+   ) => Program<T, C | D>;
 }
 
 function call<T, U>(p: () => Program<T, U>) {
@@ -24,6 +44,12 @@ function call<T, U>(p: () => Program<T, U>) {
    return makeCall as unknown as { (state: T): U; isCall: true };
 }
 
+function lift<T, U>(fn: (state: T) => U) {
+   return Program<T>()(fn);
+}
+
+lift((x: number) => x + 1);
+
 function Program<T>(): Program<T, T> {
    function transition<U>(fn: (state: T) => U) {
       transition.transitions = [...transition.transitions, fn];
@@ -32,9 +58,17 @@ function Program<T>(): Program<T, T> {
 
    transition.transitions = [] as ((state: any) => unknown)[];
    transition.currentState = ProgramFinished as StepResult;
+   transition.transitionIdx = -1;
 
+   // @ts-ignore
+   transition.cond = <C, D>(
+      pred: (b: T) => boolean,
+      onTrue: Program<T, C>,
+      onFalse: Program<T, D>
+   ) => cond(transition, pred, onTrue, onFalse) as unknown as Program<T, C | D>;
    transition.step = () => {
-      const fn = transition.transitions.shift();
+      transition.transitionIdx++;
+      const fn = transition.transitions[transition.transitionIdx];
       if (fn === undefined) {
          return ProgramFinished;
       }
@@ -81,20 +115,6 @@ function eager<A, B>(p: Program<A, B>): (a: A) => B {
    return (a) => p.run(a);
 }
 
-function cond<A, B, C, D, E, F>(
-   f: Program<A, B>,
-   pred: (b: B) => boolean,
-   onTrue: Program<B, C>,
-   onFalse: Program<B, D>
-): Program<A, E | F> {
-   const program = Program<A>();
-   program.transitions = [
-      ...f.transitions,
-      (b: B) => (pred(b) ? onTrue.run(b) : onFalse.run(b)),
-   ];
-   return program as unknown as Program<A, E | F>;
-}
-
 /*
 const program = Program<number>()((state) => state + 1)((state) => state + 3)(
    (state) => state.toString()
@@ -120,6 +140,10 @@ const at =
    (t: T) =>
       t[k];
 
+const fst = <T>([a]: [T]) => a;
+const snd = <T>([, b]: [any, T]) => b;
+
+/// junk below here
 const program = Program<number>()(plus(1))(plus(3))(String);
 // console.log(program.run(77));
 const program2 = Program<string>()(at('length'));
@@ -133,8 +157,8 @@ const hmm = cond(
    Program<number>()(plus(1)),
    Program<number>()(() => 'too big')
 );
-console.log('hmm', hmm.trace('helllllo'));
-console.log('hmm', hmm.trace('help'));
+// console.log('hmm', hmm.trace('helllllo'));
+// console.log('hmm', hmm.trace('help'));
 
 function induction<T, ACC>(
    initialValue: ACC,
@@ -159,15 +183,16 @@ const factorial = induction(
    Program<[number, number]>()(([n, acc]) => tuple(n - 1, acc * n))
 );
 
-function factorial_manual(n: number): unknown[] {
+function factorial_logged(n: number): number {
+   const $ = lift;
    const fact: () => Program<[number, number], number> = () =>
       cond(
-    Program<[number, number]>()(([n, acc]) => tuple(n - 1, acc * n)),
+         $(([n, acc]) => tuple(n - 1, acc * n)),
          ([n]) => n > 0,
-         Program<[number, number]>()(call(fact)),
-         Program<[number, number]>()(([_, acc]) => acc)
+         $(call(fact)),
+         $(snd)
       );
-   return fact().trace(tuple(n, 1));
+   return fact().run(tuple(n, 1), (x) => console.log(x));
 }
 
 //         Program<[number, number]>()((x) => eager(fact())(x)),
@@ -175,9 +200,33 @@ function tuple<A, B>(a: A, b: B): [A, B] {
    return [a, b];
 }
 
-console.log(factorial.trace(5));
+// console.log(factorial.trace(5));
 
-const foo = Program<number>()(call(() => program))(call(() => program2));
-console.log(foo.trace(1234));
+// const foo = Program<number>()(call(() => program))(call(() => program2));
+// console.log(foo.trace(1234));
 
-console.log(factorial_manual(5));
+factorial_logged(5);
+
+{
+   const $ = Program<number>;
+   type $ = Program<number, number>;
+   const down = $()(plus(-2))(call(() => up));
+   const up: $ = cond($()(plus(1)), (n) => n > 0, down, $());
+
+   down.run(10, (x) => console.log({ x }));
+}
+
+const foo = lift((a: number) => a + 1).cond(
+   (a) => a > 0,
+   lift((a: number) => a + 1),
+   lift((a: number) => a + 2)
+);
+
+const fact: () => Program<[number, number], number> = () => {
+   const $ = lift;
+   return $(([n, acc]: [number, number]) => tuple(n - 1, acc * n)).cond(
+      ([n]) => n > 0,
+      $(call(fact)),
+      $(snd)
+   );
+};
