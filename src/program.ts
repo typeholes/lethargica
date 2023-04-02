@@ -7,19 +7,25 @@ type ProgramCalled = typeof ProgramCalled;
 
 type StepResult = ProgramFinished | ProgramCalled | unknown;
 
-   const $ = lift;
+const $ = lift;
 
-   function $$<T,U>(p: () => Program<T, U> | Program<T,U>): Program<T, U> {
-     if (p.hasOwnProperty('transitions')) { return lift(() => call(p)) as never };
-     return  lift(call(p));
+function $$<T, U>(p: () => Program<T, U> | Program<T, U>): Program<T, U> {
+   if (p.hasOwnProperty('transitions')) {
+      return lift(() => call(p)) as never;
    }
+   return lift(call(p));
+}
 
-   function $_<T,U>(p: () => Program<T, U> ) : { (state: T): U; isCall: true }; 
-   function $_<T,U>(p: Program<T, U> ) : { (state: T): U; isCall: true }; 
-   function $_<T,U>(p: (() => Program<T, U>) | Program<T,U>) : { (state: T): U; isCall: true } {
-     if (p.hasOwnProperty('transitions')) { return call(() => (p as Program<T,U>)) }
-     return  call(p as () => Program<T, U>);
+function $_<T, U>(p: () => Program<T, U>): { (state: T): U; isCall: true };
+function $_<T, U>(p: Program<T, U>): { (state: T): U; isCall: true };
+function $_<T, U>(
+   p: (() => Program<T, U>) | Program<T, U>
+): { (state: T): U; isCall: true } {
+   if (p.hasOwnProperty('transitions')) {
+      return call(() => p as Program<T, U>);
    }
+   return call(p as () => Program<T, U>);
+}
 
 function cond<A, B, C, D, E, F>(
    f: Program<A, B>,
@@ -30,7 +36,7 @@ function cond<A, B, C, D, E, F>(
    const program = Program<A>();
    program.transitions = [
       ...f.transitions,
-      (b: B) => (pred(b) ? onTrue.run(b) : onFalse.run(b)),
+      (b: B) => (pred(b) ? call(() => onTrue) : call( () => onFalse)),
    ];
    return program as unknown as Program<A, E | F>;
 }
@@ -74,7 +80,7 @@ function Program<T>(): Program<T, T> {
    transition.currentState = ProgramFinished as StepResult;
    transition.transitionIdx = -1;
 
-   // @ts-ignore
+   // @ts-ignore just let the Program interface determine the type
    transition.if = <C, D>(
       pred: (b: T) => boolean,
       onTrue: Program<T, C>,
@@ -91,7 +97,14 @@ function Program<T>(): Program<T, T> {
          transition.transitions.push(...called.transitions);
          return ProgramCalled;
       }
-      return fn(transition.currentState);
+      const result = fn(transition.currentState);
+      if (typeof result === 'function' && result.hasOwnProperty('isCall')) {
+         const called = (result as any)();
+         transition.transitions.push(...called.transitions);
+         return ProgramCalled;
+      }
+        
+      return result;
    };
 
    transition.run = (a: T, effect?: (x: unknown) => void) => {
@@ -219,14 +232,14 @@ function tuple<A, B>(a: A, b: B): [A, B] {
 // const foo = Program<number>()(call(() => program))(call(() => program2));
 // console.log(foo.trace(1234));
 
-factorial_logged(5);
+//factorial_logged(5);
 
 {
    type $ = Program<number, number>;
-   const up: ()=>$ = () => $(plus(1)).if( (n) => n > 0, down, $(id));
-   const down =  $(plus(-2))( $_( up ));
+   const up: () => $ = () => $(plus(1)).if((n) => n > 0, down, $(id));
+   const down = $(plus(-3))($_(up));
 
-   down.run(10, (x) => console.log({ x }));
+//   up().run(10, (x) => console.log({ x }));
 }
 
 const foo = lift((a: number) => a + 1).if(
@@ -236,11 +249,11 @@ const foo = lift((a: number) => a + 1).if(
 );
 
 const fact: () => Program<[number, number], number> = () => {
-   return $
-   (([n, acc]: [number, number]) => tuple(n - 1, acc * n)).
-   if(
+   return $(([n, acc]: [number, number]) => tuple(n - 1, acc * n)).if(
       ([n]) => n > 0,
       $$(fact),
       $(snd)
    );
 };
+
+fact().run(tuple(5, 1), (x) => console.log(x));
