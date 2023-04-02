@@ -7,6 +7,20 @@ type ProgramCalled = typeof ProgramCalled;
 
 type StepResult = ProgramFinished | ProgramCalled | unknown;
 
+   const $ = lift;
+
+   function $$<T,U>(p: () => Program<T, U> | Program<T,U>): Program<T, U> {
+     if (p.hasOwnProperty('transitions')) { return lift(() => call(p)) as never };
+     return  lift(call(p));
+   }
+
+   function $_<T,U>(p: () => Program<T, U> ) : { (state: T): U; isCall: true }; 
+   function $_<T,U>(p: Program<T, U> ) : { (state: T): U; isCall: true }; 
+   function $_<T,U>(p: (() => Program<T, U>) | Program<T,U>) : { (state: T): U; isCall: true } {
+     if (p.hasOwnProperty('transitions')) { return call(() => (p as Program<T,U>)) }
+     return  call(p as () => Program<T, U>);
+   }
+
 function cond<A, B, C, D, E, F>(
    f: Program<A, B>,
    pred: (b: B) => boolean,
@@ -29,7 +43,7 @@ interface Program<T, U> {
    transitions: ((state: any) => unknown)[];
    currentState: StepResult;
    transitionIdx: number;
-   cond: <C, D>(
+   if: <C, D>(
       pred: (b: U) => boolean,
       onTrue: Program<U, C>,
       onFalse: Program<U, D>
@@ -61,7 +75,7 @@ function Program<T>(): Program<T, T> {
    transition.transitionIdx = -1;
 
    // @ts-ignore
-   transition.cond = <C, D>(
+   transition.if = <C, D>(
       pred: (b: T) => boolean,
       onTrue: Program<T, C>,
       onFalse: Program<T, D>
@@ -208,25 +222,25 @@ function tuple<A, B>(a: A, b: B): [A, B] {
 factorial_logged(5);
 
 {
-   const $ = Program<number>;
    type $ = Program<number, number>;
-   const down = $()(plus(-2))(call(() => up));
-   const up: $ = cond($()(plus(1)), (n) => n > 0, down, $());
+   const up: ()=>$ = () => $(plus(1)).if( (n) => n > 0, down, $(id));
+   const down =  $(plus(-2))( $_( up ));
 
    down.run(10, (x) => console.log({ x }));
 }
 
-const foo = lift((a: number) => a + 1).cond(
+const foo = lift((a: number) => a + 1).if(
    (a) => a > 0,
    lift((a: number) => a + 1),
    lift((a: number) => a + 2)
 );
 
 const fact: () => Program<[number, number], number> = () => {
-   const $ = lift;
-   return $(([n, acc]: [number, number]) => tuple(n - 1, acc * n)).cond(
+   return $
+   (([n, acc]: [number, number]) => tuple(n - 1, acc * n)).
+   if(
       ([n]) => n > 0,
-      $(call(fact)),
+      $$(fact),
       $(snd)
    );
 };
