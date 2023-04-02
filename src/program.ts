@@ -117,10 +117,7 @@ const factorial = induction(
    1,
    (n: number) => n > 0,
    Program(),
-// ^?
-   Program()(([n, acc]) => tuple(n - 1, acc * n))
-
-//   Program<[number, number]>()(([n, acc]) => tuple(n - 1, acc * n))
+   Program<[number, number]>()(([n, acc]) => tuple(n - 1, acc * n))
 )
 
 function factorial_manual(n: number): number {
