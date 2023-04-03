@@ -1,24 +1,28 @@
 // deno-lint-ignore-file no-explicit-any
 
-const ProgramFinished = Symbol('ProgramFinished');
-type ProgramFinished = typeof ProgramFinished;
-const ProgramCalled = Symbol('ProgramCalled');
-type ProgramCalled = typeof ProgramCalled;
+export const ProgramFinished = Symbol('ProgramFinished');
+export type ProgramFinished = typeof ProgramFinished;
+export const ProgramCalled = Symbol('ProgramCalled');
+export type ProgramCalled = typeof ProgramCalled;
 
-type StepResult = ProgramFinished | ProgramCalled | unknown;
+export type StepResult = ProgramFinished | ProgramCalled | unknown;
 
-const $ = lift;
+export const $ = lift;
 
-function $$<T, U>(p: () => Program<T, U> | Program<T, U>): Program<T, U> {
+export function $$<T, U>(
+   p: () => Program<T, U> | Program<T, U>
+): Program<T, U> {
    if (p.hasOwnProperty('transitions')) {
       return lift(() => call(p)) as never;
    }
    return lift(call(p));
 }
 
-function $_<T, U>(p: () => Program<T, U>): { (state: T): U; isCall: true };
-function $_<T, U>(p: Program<T, U>): { (state: T): U; isCall: true };
-function $_<T, U>(
+export function $_<T, U>(
+   p: () => Program<T, U>
+): { (state: T): U; isCall: true };
+export function $_<T, U>(p: Program<T, U>): { (state: T): U; isCall: true };
+export function $_<T, U>(
    p: (() => Program<T, U>) | Program<T, U>
 ): { (state: T): U; isCall: true } {
    if (p.hasOwnProperty('transitions')) {
@@ -27,7 +31,7 @@ function $_<T, U>(
    return call(p as () => Program<T, U>);
 }
 
-function cond<A, B, C, D, E, F>(
+export function cond<A, B, C, D, E, F>(
    f: Program<A, B>,
    pred: (b: B) => boolean,
    onTrue: Program<B, C>,
@@ -36,19 +40,21 @@ function cond<A, B, C, D, E, F>(
    const program = Program<A>();
    program.transitions = [
       ...f.transitions,
-      (b: B) => (pred(b) ? call(() => onTrue) : call( () => onFalse)),
+      (b: B) => (pred(b) ? call(() => onTrue) : call(() => onFalse)),
    ];
    return program as unknown as Program<A, E | F>;
 }
 
-interface Program<T, U> {
+export interface Program<T, U> {
    <V>(fn: (state: U) => V): Program<T, V>;
-   step: () => StepResult;
    run: (a: T, effect?: (x: unknown) => void) => U;
+   runAsync: (
+      a: T,
+      waitFor: () => PromiseLike<unknown>,
+      effect: (x: unknown) => void
+   ) => Promise<U>;
    trace: (a: T) => unknown[];
    transitions: ((state: any) => unknown)[];
-   currentState: StepResult;
-   transitionIdx: number;
    if: <C, D>(
       pred: (b: U) => boolean,
       onTrue: Program<U, C>,
@@ -56,7 +62,7 @@ interface Program<T, U> {
    ) => Program<T, C | D>;
 }
 
-function call<T, U>(p: () => Program<T, U>) {
+export function call<T, U>(p: () => Program<T, U>) {
    function makeCall() {
       return p();
    }
@@ -64,21 +70,17 @@ function call<T, U>(p: () => Program<T, U>) {
    return makeCall as unknown as { (state: T): U; isCall: true };
 }
 
-function lift<T, U>(fn: (state: T) => U) {
+export function lift<T, U>(fn: (state: T) => U) {
    return Program<T>()(fn);
 }
 
-lift((x: number) => x + 1);
-
-function Program<T>(): Program<T, T> {
+export function Program<T>(): Program<T, T> {
    function transition<U>(fn: (state: T) => U) {
       transition.transitions = [...transition.transitions, fn];
       return transition as unknown as Program<T, U>;
    }
 
    transition.transitions = [] as ((state: any) => unknown)[];
-   transition.currentState = ProgramFinished as StepResult;
-   transition.transitionIdx = -1;
 
    // @ts-ignore just let the Program interface determine the type
    transition.if = <C, D>(
@@ -86,42 +88,87 @@ function Program<T>(): Program<T, T> {
       onTrue: Program<T, C>,
       onFalse: Program<T, D>
    ) => cond(transition, pred, onTrue, onFalse) as unknown as Program<T, C | D>;
-   transition.step = () => {
-      transition.transitionIdx++;
-      const fn = transition.transitions[transition.transitionIdx];
+
+   transition.run = (a: T, effect?: (x: unknown) => void) => {
+      const scope = {
+         transitionIdx: -1,
+         transitions: [...transition.transitions],
+         currentState: a,
+      };
+
+      while (true) {
+         if (effect) {
+            effect(scope.currentState);
+         }
+         const result = step(scope);
+         if (result === ProgramFinished) {
+            return scope.currentState as T;
+         }
+         if (result !== ProgramCalled) {
+            scope.currentState = result as T;
+         }
+      }
+   };
+
+   transition.runAsync = async (
+      a: T,
+      waitFor: () => PromiseLike<unknown>,
+      effect: (x: unknown) => void
+   ) => {
+      // return currentState as T;
+      let cont = true;
+      const scope = {
+         transitionIdx: -1,
+         transitions: [...transition.transitions],
+         currentState: a,
+      };
+      let result = ProgramCalled as StepResult;
+      while (cont) {
+         await waitFor().then(() => {
+            effect(scope.currentState);
+            result = step(scope);
+            if (result === ProgramFinished) {
+               cont = false;
+            } else if (result !== ProgramCalled) {
+               scope.currentState = result as T;
+            }
+         });
+      }
+      return scope.currentState;
+   };
+
+   function step(scope: {
+      transitionIdx: number;
+      transitions: ((state: any) => unknown)[];
+      currentState: T;
+   }) {
+      scope.transitionIdx++;
+      const fn = scope.transitions[scope.transitionIdx];
       if (fn === undefined) {
          return ProgramFinished;
       }
       if (fn.hasOwnProperty('isCall')) {
          const called = (fn as any)();
-         transition.transitions.push(...called.transitions);
+         scope.transitions.splice(
+            scope.transitionIdx + 1,
+            0,
+            ...called.transitions
+         );
          return ProgramCalled;
       }
-      const result = fn(transition.currentState);
+      const result = fn(scope.currentState);
       if (typeof result === 'function' && result.hasOwnProperty('isCall')) {
          const called = (result as any)();
-         transition.transitions.push(...called.transitions);
+         scope.transitions.splice(
+            scope.transitionIdx + 1,
+            0,
+            ...called.transitions
+         );
          return ProgramCalled;
       }
-        
-      return result;
-   };
 
-   transition.run = (a: T, effect?: (x: unknown) => void) => {
-      transition.currentState = a;
-      while (true) {
-         if (effect) {
-            effect(transition.currentState);
-         }
-         const result = transition.step();
-         if (result === ProgramFinished) {
-            return transition.currentState as T;
-         }
-         if (result !== ProgramCalled) {
-            transition.currentState = result;
-         }
-      }
-   };
+      return result;
+   }
 
    transition.trace = (a: T) => {
       const states: unknown[] = [];
@@ -132,7 +179,10 @@ function Program<T>(): Program<T, T> {
    return transition;
 }
 
-function compose<A, B, C>(f: Program<A, B>, g: Program<B, C>): Program<A, C> {
+export function compose<A, B, C>(
+   f: Program<A, B>,
+   g: Program<B, C>
+): Program<A, C> {
    const program = Program<A>();
    program.transitions = [...f.transitions, ...g.transitions];
    return program as unknown as Program<A, C>;
@@ -142,50 +192,24 @@ function eager<A, B>(p: Program<A, B>): (a: A) => B {
    return (a) => p.run(a);
 }
 
-/*
-const program = Program<number>()((state) => state + 1)((state) => state + 3)(
-   (state) => state.toString()
-);
-console.log(program.run(77));
-const program2 = Program<string>()((s) => s.length);
-console.log(program2.run('hello'));
-const composed = compose(program, program2);
-console.log(composed.trace(1234567));
+export type NoInfer<T> = [T][T extends T ? 0 : never];
 
-const d = program2(() => new Date());
-      */
-
-type NoInfer<T> = [T][T extends T ? 0 : never];
-
-const id = <T>(a: T) => a;
-const plus =
+export const id = <T>(a: T) => a;
+export const times =
+   <T extends number>(a: NoInfer<T>) =>
+   (b: T) =>
+      a * b;
+export const plus =
    <T extends number>(a: NoInfer<T>) =>
    (b: T) =>
       a + b;
-const at =
+export const at =
    <T, K extends keyof T>(k: K) =>
    (t: T) =>
       t[k];
 
-const fst = <T>([a]: [T]) => a;
-const snd = <T>([, b]: [any, T]) => b;
-
-/// junk below here
-const program = Program<number>()(plus(1))(plus(3))(String);
-// console.log(program.run(77));
-const program2 = Program<string>()(at('length'));
-// console.log(program2.run('hello'));
-const composed = compose(program, program2);
-// console.log(composed.trace(1234567));
-
-const hmm = cond(
-   program2,
-   (l) => l < 5,
-   Program<number>()(plus(1)),
-   Program<number>()(() => 'too big')
-);
-// console.log('hmm', hmm.trace('helllllo'));
-// console.log('hmm', hmm.trace('help'));
+export const fst = <T>([a]: [T]) => a;
+export const snd = <T>([, b]: [any, T]) => b;
 
 function induction<T, ACC>(
    initialValue: ACC,
@@ -210,20 +234,8 @@ const factorial = induction(
    Program<[number, number]>()(([n, acc]) => tuple(n - 1, acc * n))
 );
 
-function factorial_logged(n: number): number {
-   const $ = lift;
-   const fact: () => Program<[number, number], number> = () =>
-      cond(
-         $(([n, acc]) => tuple(n - 1, acc * n)),
-         ([n]) => n > 0,
-         $(call(fact)),
-         $(snd)
-      );
-   return fact().run(tuple(n, 1), (x) => console.log(x));
-}
-
 //         Program<[number, number]>()((x) => eager(fact())(x)),
-function tuple<A, B>(a: A, b: B): [A, B] {
+export function tuple<A, B>(a: A, b: B): [A, B] {
    return [a, b];
 }
 
@@ -234,21 +246,13 @@ function tuple<A, B>(a: A, b: B): [A, B] {
 
 //factorial_logged(5);
 
-{
-   type $ = Program<number, number>;
-   const up: () => $ = () => $(plus(1)).if((n) => n > 0, down, $(id));
-   const down = $(plus(-3))($_(up));
-
-//   up().run(10, (x) => console.log({ x }));
-}
-
 const foo = lift((a: number) => a + 1).if(
    (a) => a > 0,
    lift((a: number) => a + 1),
    lift((a: number) => a + 2)
 );
 
-const fact: () => Program<[number, number], number> = () => {
+export const fact: () => Program<[number, number], number> = () => {
    return $(([n, acc]: [number, number]) => tuple(n - 1, acc * n)).if(
       ([n]) => n > 0,
       $$(fact),
@@ -256,4 +260,11 @@ const fact: () => Program<[number, number], number> = () => {
    );
 };
 
-fact().run(tuple(5, 1), (x) => console.log(x));
+export const awaitTimeout = (delay: number) =>
+   new Promise((resolve) => setTimeout(resolve, delay));
+
+//fact().runAsync([5, 1], () => awaitTimeout(1000), console.log);
+
+    let trace = [] as any[];
+    let result = await fact().runAsync([5, 1], () => awaitTimeout(1000), (x) => trace.push(x));
+    console.log('waited', result, trace)
