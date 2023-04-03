@@ -8,7 +8,6 @@ await build({
    outDir: './npm',
    shims: {
       deno: 'dev',
-      timers: true,
    },
    package: {
       name: 'lethargica',
