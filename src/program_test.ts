@@ -115,7 +115,10 @@ Deno.test('fact trace async', async () => {
    type $ = Program<number, number>;
    const up: () => $ = () => $(plus(1)).if((n) => n > 0, down, $(id));
    const down = $(plus(-3))($_(up));
-   const isEven = Program<number>()($_(up))((n) => n < 0);
+   const isEven = $( (n: number) => n < 0) .o (up());
+
+   const isEvener = Program<number>()($_(up))((n) => n < 0);
+
 
    Deno.test('mutual recursion', () => {
       for (let i = 2; i < 10; i++) {

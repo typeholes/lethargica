@@ -60,6 +60,7 @@ export interface Program<T, U> {
       onTrue: Program<U, C>,
       onFalse: Program<U, D>
    ) => Program<T, C | D>;
+   o: <V>(p: Program<V, T>) => Program<V, U>;
 }
 
 export function call<T, U>(p: () => Program<T, U>) {
@@ -88,6 +89,11 @@ export function Program<T>(): Program<T, T> {
       onTrue: Program<T, C>,
       onFalse: Program<T, D>
    ) => cond(transition, pred, onTrue, onFalse) as unknown as Program<T, C | D>;
+
+   transition.o = <V>(p: Program<V, T>) => {
+      transition.transitions.unshift(...p.transitions);
+      return transition as unknown as Program<V, T>;
+   };
 
    transition.run = (a: T, effect?: (x: unknown) => void) => {
       const scope = {
@@ -265,6 +271,10 @@ export const awaitTimeout = (delay: number) =>
 
 //fact().runAsync([5, 1], () => awaitTimeout(1000), console.log);
 
-    let trace = [] as any[];
-    let result = await fact().runAsync([5, 1], () => awaitTimeout(1000), (x) => trace.push(x));
-    console.log('waited', result, trace)
+let trace = [] as any[];
+let result = await fact().runAsync(
+   [5, 1],
+   () => awaitTimeout(1000),
+   (x) => trace.push(x)
+);
+console.log('waited', result, trace);
