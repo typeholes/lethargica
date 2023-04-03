@@ -90,7 +90,7 @@ export const fact: () => ProgramI<[number, number], number> = () => {
    );
 };
 
-const factorial = fact() .o $(x => [x,1]);
+const factorial = fact() .o ($(x => [x,1]));
 
 factorial.runAsync(5, () => awaitTimeout(1000), console.log);
 // very slowly logs
