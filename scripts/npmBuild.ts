@@ -1,14 +1,20 @@
-// docs: https://doc.deno.land/https/deno.land/x/dnt/transform.ts
+// Run from the src directory.
+// deno run -A ../scripts/npmBuild.ts 0.0.1
 import { emptyDir, build } from 'https://deno.land/x/dnt/mod.ts';
 
 await emptyDir('npm');
 
 await build({
-   entryPoints: ['./src/program.ts'],
-   outDir: './npm',
+   entryPoints: [
+      './program.ts',
+      { name: './fns', path: './fns.ts' },
+      { name: './combinators', path: './combinators.ts' },
+   ],
+   outDir: '../npm',
    shims: {
       deno: 'dev',
    },
+
    package: {
       name: 'lethargica',
       version: Deno.args[0],
@@ -26,4 +32,4 @@ await build({
    // mappings: {}, // optional specifier mappings
 });
 
-Deno.copyFileSync('readme.md', 'npm/README.md');
+Deno.copyFileSync('../readme.md', 'npm/README.md');
