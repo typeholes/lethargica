@@ -1,17 +1,20 @@
 // deno-lint-ignore-file no-explicit-any
 
-export const ProgramFinished = Symbol('ProgramFinished');
-export type ProgramFinished = typeof ProgramFinished;
-export const ProgramCalled = Symbol('ProgramCalled');
-export type ProgramCalled = typeof ProgramCalled;
+import { tuple } from './fns.ts';
+import {
+   ProgramI,
+   ProgramCalled,
+   ProgramFinished,
+   StepResult,
+} from './program.types.ts';
 
-export type StepResult = ProgramFinished | ProgramCalled | unknown;
+export type { ProgramI, };
 
 export const $ = lift;
 
 export function $$<T, U>(
-   p: () => Program<T, U> | Program<T, U>
-): Program<T, U> {
+   p: () => ProgramI<T, U> | ProgramI<T, U>
+): ProgramI<T, U> {
    if (p.hasOwnProperty('transitions')) {
       return lift(() => call(p)) as never;
    }
@@ -19,51 +22,33 @@ export function $$<T, U>(
 }
 
 export function $_<T, U>(
-   p: () => Program<T, U>
+   p: () => ProgramI<T, U>
 ): { (state: T): U; isCall: true };
-export function $_<T, U>(p: Program<T, U>): { (state: T): U; isCall: true };
+export function $_<T, U>(p: ProgramI<T, U>): { (state: T): U; isCall: true };
 export function $_<T, U>(
-   p: (() => Program<T, U>) | Program<T, U>
+   p: (() => ProgramI<T, U>) | ProgramI<T, U>
 ): { (state: T): U; isCall: true } {
    if (p.hasOwnProperty('transitions')) {
-      return call(() => p as Program<T, U>);
+      return call(() => p as ProgramI<T, U>);
    }
-   return call(p as () => Program<T, U>);
+   return call(p as () => ProgramI<T, U>);
 }
 
 export function cond<A, B, C, D, E, F>(
-   f: Program<A, B>,
+   f: ProgramI<A, B>,
    pred: (b: B) => boolean,
-   onTrue: Program<B, C>,
-   onFalse: Program<B, D>
-): Program<A, E | F> {
+   onTrue: ProgramI<B, C>,
+   onFalse: ProgramI<B, D>
+): ProgramI<A, E | F> {
    const program = Program<A>();
    program.transitions = [
       ...f.transitions,
       (b: B) => (pred(b) ? call(() => onTrue) : call(() => onFalse)),
    ];
-   return program as unknown as Program<A, E | F>;
+   return program as unknown as ProgramI<A, E | F>;
 }
 
-export interface Program<T, U> {
-   <V>(fn: (state: U) => V): Program<T, V>;
-   run: (a: T, effect?: (x: unknown) => void) => U;
-   runAsync: (
-      a: T,
-      waitFor: () => PromiseLike<unknown>,
-      effect: (x: unknown) => void
-   ) => Promise<U>;
-   trace: (a: T) => unknown[];
-   transitions: ((state: any) => unknown)[];
-   if: <C, D>(
-      pred: (b: U) => boolean,
-      onTrue: Program<U, C>,
-      onFalse: Program<U, D>
-   ) => Program<T, C | D>;
-   o: <V>(p: Program<V, T>) => Program<V, U>;
-}
-
-export function call<T, U>(p: () => Program<T, U>) {
+export function call<T, U>(p: () => ProgramI<T, U>) {
    function makeCall() {
       return p();
    }
@@ -75,10 +60,10 @@ export function lift<T, U>(fn: (state: T) => U) {
    return Program<T>()(fn);
 }
 
-export function Program<T>(): Program<T, T> {
+export function Program<T>(): ProgramI<T, T> {
    function transition<U>(fn: (state: T) => U) {
       transition.transitions = [...transition.transitions, fn];
-      return transition as unknown as Program<T, U>;
+      return transition as unknown as ProgramI<T, U>;
    }
 
    transition.transitions = [] as ((state: any) => unknown)[];
@@ -86,13 +71,14 @@ export function Program<T>(): Program<T, T> {
    // @ts-ignore just let the Program interface determine the type
    transition.if = <C, D>(
       pred: (b: T) => boolean,
-      onTrue: Program<T, C>,
-      onFalse: Program<T, D>
-   ) => cond(transition, pred, onTrue, onFalse) as unknown as Program<T, C | D>;
+      onTrue: ProgramI<T, C>,
+      onFalse: ProgramI<T, D>
+   ) =>
+      cond(transition, pred, onTrue, onFalse) as unknown as ProgramI<T, C | D>;
 
-   transition.o = <V>(p: Program<V, T>) => {
+   transition.o = <V>(p: ProgramI<V, T>) => {
       transition.transitions.unshift(...p.transitions);
-      return transition as unknown as Program<V, T>;
+      return transition as unknown as ProgramI<V, T>;
    };
 
    transition.run = (a: T, effect?: (x: unknown) => void) => {
@@ -186,95 +172,18 @@ export function Program<T>(): Program<T, T> {
 }
 
 export function compose<A, B, C>(
-   f: Program<A, B>,
-   g: Program<B, C>
-): Program<A, C> {
+   f: ProgramI<A, B>,
+   g: ProgramI<B, C>
+): ProgramI<A, C> {
    const program = Program<A>();
    program.transitions = [...f.transitions, ...g.transitions];
-   return program as unknown as Program<A, C>;
+   return program as unknown as ProgramI<A, C>;
 }
 
-function eager<A, B>(p: Program<A, B>): (a: A) => B {
+function eager<A, B>(p: ProgramI<A, B>): (a: A) => B {
    return (a) => p.run(a);
 }
 
-export type NoInfer<T> = [T][T extends T ? 0 : never];
-
-export const id = <T>(a: T) => a;
-export const times =
-   <T extends number>(a: NoInfer<T>) =>
-   (b: T) =>
-      a * b;
-export const plus =
-   <T extends number>(a: NoInfer<T>) =>
-   (b: T) =>
-      a + b;
-export const at =
-   <T, K extends keyof T>(k: K) =>
-   (t: T) =>
-      t[k];
-
-export const fst = <T>([a]: [T]) => a;
-export const snd = <T>([, b]: [any, T]) => b;
-
-function induction<T, ACC>(
-   initialValue: ACC,
-   discriminant: (a: T) => boolean,
-   baseCase: Program<[T, ACC], [T, ACC]>,
-   recursiveCase: Program<[T, ACC], [T, ACC]>
-): Program<T, ACC> {
-   const induce: () => Program<[T, ACC], ACC> = () =>
-      cond(
-         recursiveCase,
-         ([t, acc]) => discriminant(t),
-         Program<[T, ACC]>()((x) => induce().run(x)),
-         baseCase
-      );
-   return Program<T>()((t) => tuple(t, initialValue))((x) => induce().run(x));
-}
-
-const factorial = induction(
-   1,
-   (n: number) => n > 0,
-   Program(),
-   Program<[number, number]>()(([n, acc]) => tuple(n - 1, acc * n))
-);
-
-//         Program<[number, number]>()((x) => eager(fact())(x)),
-export function tuple<A, B>(a: A, b: B): [A, B] {
-   return [a, b];
-}
-
-// console.log(factorial.trace(5));
-
-// const foo = Program<number>()(call(() => program))(call(() => program2));
-// console.log(foo.trace(1234));
-
-//factorial_logged(5);
-
-const foo = lift((a: number) => a + 1).if(
-   (a) => a > 0,
-   lift((a: number) => a + 1),
-   lift((a: number) => a + 2)
-);
-
-export const fact: () => Program<[number, number], number> = () => {
-   return $(([n, acc]: [number, number]) => tuple(n - 1, acc * n)).if(
-      ([n]) => n > 0,
-      $$(fact),
-      $(snd)
-   );
-};
 
 export const awaitTimeout = (delay: number) =>
    new Promise((resolve) => setTimeout(resolve, delay));
-
-//fact().runAsync([5, 1], () => awaitTimeout(1000), console.log);
-
-let trace = [] as any[];
-let result = await fact().runAsync(
-   [5, 1],
-   () => awaitTimeout(1000),
-   (x) => trace.push(x)
-);
-console.log('waited', result, trace);

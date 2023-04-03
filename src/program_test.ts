@@ -1,22 +1,17 @@
 import { assertEquals } from 'https://deno.land/std@0.182.0/testing/asserts.ts';
 import {
    $,
-   id,
-   plus,
-   times,
    $_,
-   Program,
+   ProgramI,
    call,
    cond,
-   snd,
-   tuple,
    $$,
    compose,
-awaitTimeout,
-fact,
+   awaitTimeout,
+Program,
 } from './program.ts';
-
-
+import { fact } from './examples/fact.ts';
+import { id, plus, times, snd, tuple } from './fns.ts';
 
 Deno.test('id number', () => {
    assertEquals($(id).run(3), 3);
@@ -50,7 +45,7 @@ Deno.test('call', () => {
 });
 
 function factorial(n: number, effect: (x: unknown) => void = id): number {
-   const fact: () => Program<[number, number], number> = () =>
+   const fact: () => ProgramI<[number, number], number> = () =>
       cond(
          $(([n, acc]) => tuple(n - 1, acc * n)),
          ([n]) => n > 0,
@@ -93,13 +88,17 @@ Deno.test('factorial trace', () => {
 });
 
 Deno.test('fact async', async () => {
-   const result = await fact().runAsync( [5,1], () => awaitTimeout(10), (x) => {})
-   assertEquals(result, 120 );
+   const result = await fact().runAsync([5, 1], () => awaitTimeout(10), id);
+   assertEquals(result, 120);
 });
 
 Deno.test('fact trace async', async () => {
    const trace: any[] = [];
-   const result = await fact().runAsync( [5,1], () => awaitTimeout(10), (x) => trace.push(x));
+   const result = await fact().runAsync(
+      [5, 1],
+      () => awaitTimeout(10),
+      (x) => trace.push(x)
+   );
    assertEquals(dedup(trace), [
       [5, 1],
       [4, 5],
@@ -112,13 +111,12 @@ Deno.test('fact trace async', async () => {
 });
 
 {
-   type $ = Program<number, number>;
+   type $ = ProgramI<number, number>;
    const up: () => $ = () => $(plus(1)).if((n) => n > 0, down, $(id));
    const down = $(plus(-3))($_(up));
-   const isEven = $( (n: number) => n < 0) .o (up());
+   const isEven = $((n: number) => n < 0).o(up());
 
    const isEvener = Program<number>()($_(up))((n) => n < 0);
-
 
    Deno.test('mutual recursion', () => {
       for (let i = 2; i < 10; i++) {
