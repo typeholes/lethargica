@@ -20,3 +20,7 @@ export const snd = <T>([, b]: [any, T]) => b;
 export function tuple<A, B>(a: A, b: B): [A, B] {
    return [a, b];
 }
+
+export function dup<T>(a: T): [T, T] {
+   return [a, a];
+}
