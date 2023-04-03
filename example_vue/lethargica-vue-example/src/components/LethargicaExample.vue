@@ -37,6 +37,8 @@ factorial.runAsync(5, () => awaitTimeout(1000), console.log)
 
 <template>
     <div style="height: 100%; top: 0; left: 2em; position: fixed">
+        <h2>Lethargica</h2>
+        <h3>A very simple example of an async effect in <a href="https://github.com/typeholes/lethargica">lethargica</a></h3>
     <pre>
 const fact = {{ fact }}
 const factorial = fact().o($((x: number) => [x, 1]));
