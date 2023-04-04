@@ -24,3 +24,11 @@ export function tuple<A, B>(a: A, b: B): [A, B] {
 export function dup<T>(a: T): [T, T] {
    return [a, a];
 }
+
+export function restoreState<T>(state: T, newState: unknown): T {
+   return state;
+}
+
+export function replaceState<T>(state: unknown, newState: T): T {
+   return newState;
+}

@@ -12,6 +12,7 @@ Program,
 } from './program.ts';
 import { fact } from './examples/fact.ts';
 import { id, plus, times, snd, tuple } from './fns.ts';
+import { reverse } from "./combinators.ts";
 
 Deno.test('id number', () => {
    assertEquals($(id).run(3), 3);
@@ -149,3 +150,15 @@ Deno.test('fact trace async', async () => {
       }
    });
 }
+
+Deno.test('call with mergeStates', () => {
+   const idP = $(id);
+   const const3 = $( () => 3);
+   const with3 = idP (call(() => const3, tuple));
+   assertEquals(with3.run(1), [1,3]);
+
+   const constObj = $( () => ({a: 1, defs: [1,2,3]}));
+   const reverseDefs = reverse<number>() .o ($( (x: {a: number, defs: number[]}) => x.defs));
+   const objReverseDefs = constObj (call(() => reverseDefs, (x, y) => ({...x, defs: y})));
+   assertEquals(objReverseDefs.run(1), {a: 1, defs: [3,2,1]});
+});

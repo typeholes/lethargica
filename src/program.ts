@@ -8,7 +8,7 @@ import {
    StepResult,
 } from './program.types.ts';
 
-export type { ProgramI, };
+export type { ProgramI };
 
 export const $ = lift;
 
@@ -21,6 +21,7 @@ export function $$<T, U>(
    return lift(call(p));
 }
 
+// might want to deprecate this
 export function $_<T, U>(
    p: () => ProgramI<T, U>
 ): { (state: T): U; isCall: true };
@@ -48,12 +49,29 @@ export function cond<A, B, C, D, E, F>(
    return program as unknown as ProgramI<A, E | F>;
 }
 
-export function call<T, U>(p: () => ProgramI<T, U>) {
+export type Call<T, U, B> = {
+   (state: T): B;
+   isCall: true;
+   mergeStates: (t: T, u: U) => B;
+};
+
+export function call<T, U, B>(
+   p: () => ProgramI<T, U>,
+   mergeStates: (t: T, u: U) => B
+): Call<T, U, B>;
+export function call<T, U>(p: () => ProgramI<T, U>): Call<T, U, U>;
+
+export function call<T, U, B>(
+   p: () => ProgramI<T, U>,
+   mergeStates: (t: T, u: U) => B = (_, u) => u as unknown as B
+): Call<T, U, B> {
    function makeCall() {
       return p();
    }
    makeCall.isCall = true as const;
-   return makeCall as unknown as { (state: T): U; isCall: true };
+   makeCall.mergeStates = mergeStates;
+
+   return makeCall as unknown as Call<T, U, B>;
 }
 
 export function lift<T, U>(fn: (state: T) => U) {
@@ -139,12 +157,16 @@ export function Program<T>(): ProgramI<T, T> {
       if (fn === undefined) {
          return ProgramFinished;
       }
-      if (fn.hasOwnProperty('isCall')) {
+      if (fn.hasOwnProperty('isCall') && fn.hasOwnProperty('mergeStates')) {
          const called = (fn as any)();
+         const holdState = scope.currentState;
          scope.transitions.splice(
             scope.transitionIdx + 1,
             0,
-            ...called.transitions
+            ...[
+               ...called.transitions,
+               (x: any) => ((fn as any).mergeStates as any)(holdState, x),
+            ]
          );
          return ProgramCalled;
       }
@@ -183,7 +205,6 @@ export function compose<A, B, C>(
 function eager<A, B>(p: ProgramI<A, B>): (a: A) => B {
    return (a) => p.run(a);
 }
-
 
 export const awaitTimeout = (delay: number) =>
    new Promise((resolve) => setTimeout(resolve, delay));
