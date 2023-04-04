@@ -81,6 +81,7 @@ const forever = () => idP($_(forever));
 ```
 
 Mandatory factorial example
+
 ```ts
 export const fact: () => ProgramI<[number, number], number> = () => {
    return $(([n, acc]: [number, number]) => tuple(n - 1, acc * n)).if(
@@ -90,24 +91,38 @@ export const fact: () => ProgramI<[number, number], number> = () => {
    );
 };
 
-const factorial = fact() .o ($(x => [x,1]));
+const factorial = fact().o($((x) => [x, 1]));
 
 factorial.runAsync(5, () => awaitTimeout(1000), console.log);
 // very slowly logs
-    //   [5, 1]
-    //   [4, 5]
-    //   [3, 20]
-    //   [2, 60]
-    //   [1, 120]
-    //   [0, 120]
-    //   120
+//   [5, 1]
+//   [4, 5]
+//   [3, 20]
+//   [2, 60]
+//   [1, 120]
+//   [0, 120]
+//   120
 ```
 
 And a truly awful implementation of `isEven` to demonstrate mutual recursion
+
 ```ts
-const up: () => ProgramI<number,number> = () => $
-    (plus(1)).
-    if((n) => n > 0, down, $(id));
-const down = $(plus(-3)) ($_(up));
-const isEven = $((n: number) => n < 0) .o (up());
+const up: () => ProgramI<number, number> = () =>
+   $(plus(1)).if((n) => n > 0, down, $(id));
+const down = $(plus(-3))($_(up));
+const isEven = $((n: number) => n < 0).o(up());
+```
+
+---
+
+## Patterns
+
+Simulating a program in the state monad can be accomplished with a simple `(obj) => Program`
+
+```ts
+const multiplyAndGetLast = (obj) => Program<number[]>()
+   (map( n => {
+      obj.last = n;
+      return n * obj.multiplier
+   });
 ```
