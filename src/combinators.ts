@@ -47,11 +47,25 @@ export function fold<T, U>(fn: (a: U, b: T) => U, zero: U): ProgramI<T[], U> {
    );
 }
 
-export const mConcat = fold as <T>(fn: (a: T, b: T) => T, zero: T) => ProgramI<T[], T>;
+export const mConcat = fold as <T>(
+   fn: (a: T, b: T) => T,
+   zero: T
+) => ProgramI<T[], T>;
+
+export const over = <T>(action: (x: T) => void): ProgramI<T[], undefined> =>
+   traverse<T[], undefined, T>(
+      (defs) => [defs.slice(1), defs[0]],
+      (_, statement) => {
+         action(statement);
+         return undefined;
+      },
+      (defs) => defs.length === 0,
+      undefined
+   );
 
 //map(times(2)) .o ( Program<number[]>()).run([1, 2, 3], console.log);
 //Program<number[]>() ($_(map(times(2)))).run([1, 2, 3], console.log);
 
-mConcat((a, b ) => a + b, 0)
-   .o(Program<number[]>())
-   .run([1, 2, 3,5], console.log);
+// mConcat((a, b ) => a + b, 0)
+//    .o(Program<number[]>())
+//    .run([1, 2, 3,5], console.log);
