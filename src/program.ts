@@ -1,14 +1,15 @@
 // deno-lint-ignore-file no-explicit-any
 
-import { tuple } from './fns.ts';
+import { replaceState, restoreState, tuple } from './fns.ts';
 import {
    ProgramI,
    ProgramCalled,
    ProgramFinished,
    StepResult,
+   Call,
 } from './program.types.ts';
 
-export type { ProgramI };
+export type { ProgramI, Call };
 
 export const $ = lift;
 
@@ -48,12 +49,6 @@ export function cond<A, B, C, D, E, F>(
    ];
    return program as unknown as ProgramI<A, E | F>;
 }
-
-export type Call<T, U, B> = {
-   (state: T): B;
-   isCall: true;
-   mergeStates: (t: T, u: U) => B;
-};
 
 export function call<T, U, B>(
    p: () => ProgramI<T, U>,
@@ -208,3 +203,18 @@ function eager<A, B>(p: ProgramI<A, B>): (a: A) => B {
 
 export const awaitTimeout = (delay: number) =>
    new Promise((resolve) => setTimeout(resolve, delay));
+
+export function callWith<T, U, S>(
+   withState: (t: T) => S,
+   p: () => ProgramI<S, U>
+): Call<T, U, T> {
+   function makeCall() {
+      return p();
+   }
+   makeCall.isCall = true as const;
+   makeCall.mergeStates = replaceState;
+
+   const callProgram =  makeCall as unknown as Call<S, U, U>;
+   const stateCall = $(withState) (callProgram);
+   return call( () => stateCall, restoreState);
+}

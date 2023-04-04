@@ -25,3 +25,9 @@ interface ProgramI<T, U> {
    ) => ProgramI<T, C | D>;
    o: <V>(p: ProgramI<V, T>) => ProgramI<V, U>;
 }
+
+export type Call<T, U, B> = {
+   (state: T): B;
+   isCall: true;
+   mergeStates: (t: T, u: U) => B;
+};
