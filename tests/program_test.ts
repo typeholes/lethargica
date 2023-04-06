@@ -10,10 +10,18 @@ import {
    awaitTimeout,
    Program,
    callWith,
-} from './program.ts';
-import { fact } from './examples/fact.ts';
-import { id, plus, times, snd, tuple } from './fns.ts';
-import { reverse } from './combinators.ts';
+} from '../src/ts/program.ts';
+import { fact } from '../src/examples/fact.ts';
+import {
+   id,
+   plus,
+   times,
+   snd,
+   tuple,
+   restoreState,
+   always,
+} from '../src/ts/fns.ts';
+import { fold, reverse } from '../src/ts/combinators.ts';
 
 Deno.test('id number', () => {
    assertEquals($(id).run(3), 3);
@@ -186,3 +194,19 @@ Deno.test('callWith', () => {
    assertEquals(p.run(1), 1, 'p.run(1) === 1');
    assertEquals(tmp, 99, 'tmp === 99');
 });
+
+{
+   const bar = Program<number>()(plus(1)).zip(tuple);
+
+   const mults = [1, 2, 3].map(times);
+   const sumP = fold((a, b: number) => a + b, 0);
+   const applyInto = <T,U>(t:T, fs: ((t: T) => U)[]) => fs.map((f) => f(t))
+
+   // prettier-ignore
+   const foo = sumP .o ($(id<number>) (always(mults)) .zip (applyInto));
+
+   Deno.test('zip', () => {
+      assertEquals(bar.run(1), [1, 2]);
+      assertEquals(foo.run(2), 12);
+   });
+}

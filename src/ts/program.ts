@@ -1,6 +1,9 @@
 // deno-lint-ignore-file no-explicit-any
 
-import { replaceState, restoreState, tuple } from './fns.ts';
+import { hmm, hmmDesc } from './junk/junk.ts';
+export { hmm, hmmDesc };
+
+import { id, replaceState, restoreState, tuple } from './fns.ts';
 import {
    ProgramI,
    ProgramCalled,
@@ -10,8 +13,6 @@ import {
 } from './program.types.ts';
 
 export type { ProgramI, Call };
-
-export const $ = lift;
 
 export function $$<T, U>(
    p: () => ProgramI<T, U> | ProgramI<T, U>
@@ -69,8 +70,24 @@ export function call<T, U, B>(
    return makeCall as unknown as Call<T, U, B>;
 }
 
+export function executeArray<T>(ps: ProgramI<T, unknown>[]) {
+   return call<T, unknown, T>(
+      ps as unknown as () => ProgramI<T, unknown>,
+      restoreState
+   );
+}
+
 export function lift<T, U>(fn: (state: T) => U) {
    return Program<T>()(fn);
+}
+export function $<T, U>(fn: (state: T) => U) {
+   return Program<T>()(fn);
+}
+
+export function clone<T, U>(p: ProgramI<T, U>) {
+   const program = Program<T>();
+   program.transitions = [...p.transitions];
+   return program as unknown as ProgramI<T, U>;
 }
 
 export function Program<T>(): ProgramI<T, T> {
@@ -80,6 +97,14 @@ export function Program<T>(): ProgramI<T, T> {
    }
 
    transition.transitions = [] as ((state: any) => unknown)[];
+
+   transition.zip = <U,V>( fn: (t: T, u: U) => V) => {
+      const currentProgram = clone(transition) as unknown as ProgramI<T,U>;
+      const t = transition.transitions.pop();
+      const u = call( () => currentProgram, fn);
+      transition.transitions.push(u);
+      return transition as unknown as ProgramI<T, V>;
+   }
 
    // @ts-ignore just let the Program interface determine the type
    transition.if = <C, D>(
@@ -147,32 +172,37 @@ export function Program<T>(): ProgramI<T, T> {
       transitions: ((state: any) => unknown)[];
       currentState: T;
    }) {
+      function handleCall(c: unknown): boolean {
+         if (
+            typeof c === 'function' &&
+            c.hasOwnProperty('isCall') &&
+            c.hasOwnProperty('mergeStates')
+         ) {
+            const called = [(c as any)()].flat();
+            const holdState = scope.currentState;
+            const newTransitions = called.map((x) => x.transitions).flat(); //  as unknown as ((x: unknown)=>unknown)[];
+            newTransitions.push((x: any) =>
+               ((c as any).mergeStates as any)(holdState, x)
+            );
+            scope.transitions.splice(
+               scope.transitionIdx + 1,
+               0,
+               ...newTransitions
+            );
+            return true;
+         }
+         return false;
+      }
       scope.transitionIdx++;
       const fn = scope.transitions[scope.transitionIdx];
       if (fn === undefined) {
          return ProgramFinished;
       }
-      if (fn.hasOwnProperty('isCall') && fn.hasOwnProperty('mergeStates')) {
-         const called = (fn as any)();
-         const holdState = scope.currentState;
-         scope.transitions.splice(
-            scope.transitionIdx + 1,
-            0,
-            ...[
-               ...called.transitions,
-               (x: any) => ((fn as any).mergeStates as any)(holdState, x),
-            ]
-         );
+      if (handleCall(fn)) {
          return ProgramCalled;
       }
       const result = fn(scope.currentState);
-      if (typeof result === 'function' && result.hasOwnProperty('isCall')) {
-         const called = (result as any)();
-         scope.transitions.splice(
-            scope.transitionIdx + 1,
-            0,
-            ...called.transitions
-         );
+      if (handleCall(result)) {
          return ProgramCalled;
       }
 
@@ -193,6 +223,9 @@ export function compose<A, B, C>(
    g: ProgramI<B, C>
 ): ProgramI<A, C> {
    const program = Program<A>();
+   if (!Array.isArray(f.transitions)) {
+      throw { f, transitions: f.transitions };
+   }
    program.transitions = [...f.transitions, ...g.transitions];
    return program as unknown as ProgramI<A, C>;
 }
@@ -207,14 +240,26 @@ export const awaitTimeout = (delay: number) =>
 export function callWith<T, U, S>(
    withState: (t: T) => S,
    p: () => ProgramI<S, U>
-): Call<T, U, T> {
+) {
    function makeCall() {
       return p();
    }
    makeCall.isCall = true as const;
    makeCall.mergeStates = replaceState;
 
-   const callProgram =  makeCall as unknown as Call<S, U, U>;
-   const stateCall = $(withState) (callProgram);
-   return call( () => stateCall, restoreState);
+   const callProgram = makeCall as unknown as Call<S, U, U>;
+   const stateCall = $(withState)(callProgram);
+   return call(() => stateCall, restoreState);
+}
+
+/**
+ * ```typescript doctest
+ * # import Test from './index';
+ * const t = new Test();
+ * expect(t).toBeInstanceOf(Test);
+ * expect(t.getValue()).toEqual(42);
+ * ```
+ */
+function foo() {
+   return 5;
 }

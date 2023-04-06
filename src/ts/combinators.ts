@@ -1,7 +1,18 @@
 import { id, plus, snd, times, tuple } from './fns.ts';
-import { cond, compose, Program, $$, $_, ProgramI } from './program.ts';
+import {
+   cond,
+   compose,
+   Program,
+   $$,
+   $_,
+   ProgramI,
+   executeArray,
+   call,
+   lift,
+} from './program.ts';
 export { cond, compose };
-import { $ } from './program.ts';
+
+const $ = lift;
 
 export function traverse<U, V, A>(
    shrink: (x: U) => [U, A],
@@ -11,13 +22,13 @@ export function traverse<U, V, A>(
 ): ProgramI<U, V> {
    type US = [U, V];
    const _traverse: () => ProgramI<US, V> = () =>
-      $(([xs, acc]: US) => {
+      lift(([xs, acc]: US) => {
          const [newXs, a] = shrink(xs);
          const newAcc = expand(acc, a);
          return tuple(newXs, newAcc);
-      }).if(([xs]: US) => isEmpty(xs), $$(_traverse), $(snd));
+      }).if(([xs]: US) => isEmpty(xs), $$(_traverse), lift(snd));
 
-   const prog = _traverse().o($((x: U) => tuple(x, empty)));
+   const prog = _traverse().o(lift((x: U) => tuple(x, empty)));
    return prog;
 }
 

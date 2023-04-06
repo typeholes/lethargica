@@ -2,7 +2,7 @@
 // deno run -A ../scripts/npmBuild.ts 0.0.1
 import { emptyDir, build } from 'https://deno.land/x/dnt/mod.ts';
 
-await emptyDir('../npm');
+await emptyDir('../../npm');
 
 await build({
    entryPoints: [
@@ -10,7 +10,7 @@ await build({
       { name: './fns', path: './fns.ts' },
       { name: './combinators', path: './combinators.ts' },
    ],
-   outDir: '../npm',
+   outDir: '../../npm',
    shims: {
       deno: 'dev',
    },
@@ -32,4 +32,4 @@ await build({
    // mappings: {}, // optional specifier mappings
 });
 
-Deno.copyFileSync('../readme.md', '../npm/README.md');
+Deno.copyFileSync('../../readme.md', '../../npm/README.md');

@@ -32,3 +32,8 @@ export function restoreState<T>(state: T, newState: unknown): T {
 export function replaceState<T>(state: unknown, newState: T): T {
    return newState;
 }
+
+
+export function always<T>(a: T): () => T {
+   return () => a;
+}

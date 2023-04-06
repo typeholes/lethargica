@@ -1,5 +1,5 @@
-import { snd, tuple } from '../fns.ts';
-import { Program, $, $$, ProgramI } from '../program.ts';
+import { snd, tuple } from '../ts/fns.ts';
+import { Program, $, $$, ProgramI } from '../ts/program.ts';
 
 export const fact: () => ProgramI<[number, number], number> = () => {
    return $(([n, acc]: [number, number]) => tuple(n - 1, acc * n)).if(

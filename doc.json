@@ -1,0 +1,3159 @@
+{
+	"id": 0,
+	"name": "Lethargica",
+	"kind": 1,
+	"kindString": "Project",
+	"flags": {},
+	"children": [
+		{
+			"id": 126,
+			"name": "ProgramI",
+			"kind": 256,
+			"kindString": "Interface",
+			"flags": {},
+			"children": [
+				{
+					"id": 154,
+					"name": "if",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "program.types.ts",
+							"line": 21,
+							"character": 3
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 155,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "program.types.ts",
+									"line": 21,
+									"character": 7
+								}
+							],
+							"signatures": [
+								{
+									"id": 156,
+									"name": "__type",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"typeParameter": [
+										{
+											"id": 157,
+											"name": "C",
+											"kind": 131072,
+											"kindString": "Type parameter",
+											"flags": {}
+										},
+										{
+											"id": 158,
+											"name": "D",
+											"kind": 131072,
+											"kindString": "Type parameter",
+											"flags": {}
+										}
+									],
+									"parameters": [
+										{
+											"id": 159,
+											"name": "pred",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reflection",
+												"declaration": {
+													"id": 160,
+													"name": "__type",
+													"kind": 65536,
+													"kindString": "Type literal",
+													"flags": {},
+													"sources": [
+														{
+															"fileName": "program.types.ts",
+															"line": 22,
+															"character": 12
+														}
+													],
+													"signatures": [
+														{
+															"id": 161,
+															"name": "__type",
+															"kind": 4096,
+															"kindString": "Call signature",
+															"flags": {},
+															"parameters": [
+																{
+																	"id": 162,
+																	"name": "b",
+																	"kind": 32768,
+																	"kindString": "Parameter",
+																	"flags": {},
+																	"type": {
+																		"type": "reference",
+																		"id": 180,
+																		"name": "U"
+																	}
+																}
+															],
+															"type": {
+																"type": "intrinsic",
+																"name": "boolean"
+															}
+														}
+													]
+												}
+											}
+										},
+										{
+											"id": 163,
+											"name": "onTrue",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"id": 126,
+												"typeArguments": [
+													{
+														"type": "reference",
+														"id": 180,
+														"name": "U"
+													},
+													{
+														"type": "reference",
+														"id": 157,
+														"name": "C"
+													}
+												],
+												"name": "ProgramI"
+											}
+										},
+										{
+											"id": 164,
+											"name": "onFalse",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"id": 126,
+												"typeArguments": [
+													{
+														"type": "reference",
+														"id": 180,
+														"name": "U"
+													},
+													{
+														"type": "reference",
+														"id": 158,
+														"name": "D"
+													}
+												],
+												"name": "ProgramI"
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"id": 126,
+										"typeArguments": [
+											{
+												"type": "reference",
+												"id": 179,
+												"name": "T"
+											},
+											{
+												"type": "union",
+												"types": [
+													{
+														"type": "reference",
+														"id": 157,
+														"name": "C"
+													},
+													{
+														"type": "reference",
+														"id": 158,
+														"name": "D"
+													}
+												]
+											}
+										],
+										"name": "ProgramI"
+									}
+								}
+							]
+						}
+					}
+				},
+				{
+					"id": 165,
+					"name": "o",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "program.types.ts",
+							"line": 26,
+							"character": 3
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 166,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "program.types.ts",
+									"line": 26,
+									"character": 6
+								}
+							],
+							"signatures": [
+								{
+									"id": 167,
+									"name": "__type",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"typeParameter": [
+										{
+											"id": 168,
+											"name": "V",
+											"kind": 131072,
+											"kindString": "Type parameter",
+											"flags": {}
+										}
+									],
+									"parameters": [
+										{
+											"id": 169,
+											"name": "p",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"id": 126,
+												"typeArguments": [
+													{
+														"type": "reference",
+														"id": 168,
+														"name": "V"
+													},
+													{
+														"type": "reference",
+														"id": 179,
+														"name": "T"
+													}
+												],
+												"name": "ProgramI"
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"id": 126,
+										"typeArguments": [
+											{
+												"type": "reference",
+												"id": 168,
+												"name": "V"
+											},
+											{
+												"type": "reference",
+												"id": 180,
+												"name": "U"
+											}
+										],
+										"name": "ProgramI"
+									}
+								}
+							]
+						}
+					}
+				},
+				{
+					"id": 127,
+					"name": "run",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "program.types.ts",
+							"line": 13,
+							"character": 3
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 128,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "program.types.ts",
+									"line": 13,
+									"character": 8
+								}
+							],
+							"signatures": [
+								{
+									"id": 129,
+									"name": "__type",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 130,
+											"name": "a",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"id": 179,
+												"name": "T"
+											}
+										},
+										{
+											"id": 131,
+											"name": "effect",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {
+												"isOptional": true
+											},
+											"type": {
+												"type": "reflection",
+												"declaration": {
+													"id": 132,
+													"name": "__type",
+													"kind": 65536,
+													"kindString": "Type literal",
+													"flags": {},
+													"sources": [
+														{
+															"fileName": "program.types.ts",
+															"line": 13,
+															"character": 24
+														}
+													],
+													"signatures": [
+														{
+															"id": 133,
+															"name": "__type",
+															"kind": 4096,
+															"kindString": "Call signature",
+															"flags": {},
+															"parameters": [
+																{
+																	"id": 134,
+																	"name": "x",
+																	"kind": 32768,
+																	"kindString": "Parameter",
+																	"flags": {},
+																	"type": {
+																		"type": "intrinsic",
+																		"name": "unknown"
+																	}
+																}
+															],
+															"type": {
+																"type": "intrinsic",
+																"name": "void"
+															}
+														}
+													]
+												}
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"id": 180,
+										"name": "U"
+									}
+								}
+							]
+						}
+					}
+				},
+				{
+					"id": 135,
+					"name": "runAsync",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "program.types.ts",
+							"line": 14,
+							"character": 3
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 136,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "program.types.ts",
+									"line": 14,
+									"character": 13
+								}
+							],
+							"signatures": [
+								{
+									"id": 137,
+									"name": "__type",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 138,
+											"name": "a",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"id": 179,
+												"name": "T"
+											}
+										},
+										{
+											"id": 139,
+											"name": "waitFor",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reflection",
+												"declaration": {
+													"id": 140,
+													"name": "__type",
+													"kind": 65536,
+													"kindString": "Type literal",
+													"flags": {},
+													"sources": [
+														{
+															"fileName": "program.types.ts",
+															"line": 16,
+															"character": 15
+														}
+													],
+													"signatures": [
+														{
+															"id": 141,
+															"name": "__type",
+															"kind": 4096,
+															"kindString": "Call signature",
+															"flags": {},
+															"type": {
+																"type": "reference",
+																"typeArguments": [
+																	{
+																		"type": "intrinsic",
+																		"name": "unknown"
+																	}
+																],
+																"name": "PromiseLike",
+																"qualifiedName": "PromiseLike",
+																"package": "typescript"
+															}
+														}
+													]
+												}
+											}
+										},
+										{
+											"id": 142,
+											"name": "effect",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reflection",
+												"declaration": {
+													"id": 143,
+													"name": "__type",
+													"kind": 65536,
+													"kindString": "Type literal",
+													"flags": {},
+													"sources": [
+														{
+															"fileName": "program.types.ts",
+															"line": 17,
+															"character": 14
+														}
+													],
+													"signatures": [
+														{
+															"id": 144,
+															"name": "__type",
+															"kind": 4096,
+															"kindString": "Call signature",
+															"flags": {},
+															"parameters": [
+																{
+																	"id": 145,
+																	"name": "x",
+																	"kind": 32768,
+																	"kindString": "Parameter",
+																	"flags": {},
+																	"type": {
+																		"type": "intrinsic",
+																		"name": "unknown"
+																	}
+																}
+															],
+															"type": {
+																"type": "intrinsic",
+																"name": "void"
+															}
+														}
+													]
+												}
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"typeArguments": [
+											{
+												"type": "reference",
+												"id": 180,
+												"name": "U"
+											}
+										],
+										"name": "Promise",
+										"qualifiedName": "Promise",
+										"package": "typescript"
+									}
+								}
+							]
+						}
+					}
+				},
+				{
+					"id": 146,
+					"name": "trace",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "program.types.ts",
+							"line": 19,
+							"character": 3
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 147,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "program.types.ts",
+									"line": 19,
+									"character": 10
+								}
+							],
+							"signatures": [
+								{
+									"id": 148,
+									"name": "__type",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 149,
+											"name": "a",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"id": 179,
+												"name": "T"
+											}
+										}
+									],
+									"type": {
+										"type": "array",
+										"elementType": {
+											"type": "intrinsic",
+											"name": "unknown"
+										}
+									}
+								}
+							]
+						}
+					}
+				},
+				{
+					"id": 150,
+					"name": "transitions",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "program.types.ts",
+							"line": 20,
+							"character": 3
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "reflection",
+							"declaration": {
+								"id": 151,
+								"name": "__type",
+								"kind": 65536,
+								"kindString": "Type literal",
+								"flags": {},
+								"sources": [
+									{
+										"fileName": "program.types.ts",
+										"line": 20,
+										"character": 17
+									}
+								],
+								"signatures": [
+									{
+										"id": 152,
+										"name": "__type",
+										"kind": 4096,
+										"kindString": "Call signature",
+										"flags": {},
+										"parameters": [
+											{
+												"id": 153,
+												"name": "state",
+												"kind": 32768,
+												"kindString": "Parameter",
+												"flags": {},
+												"type": {
+													"type": "intrinsic",
+													"name": "any"
+												}
+											}
+										],
+										"type": {
+											"type": "intrinsic",
+											"name": "unknown"
+										}
+									}
+								]
+							}
+						}
+					}
+				},
+				{
+					"id": 170,
+					"name": "zip",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "program.types.ts",
+							"line": 29,
+							"character": 3
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 171,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "program.types.ts",
+									"line": 29,
+									"character": 8
+								}
+							],
+							"signatures": [
+								{
+									"id": 172,
+									"name": "__type",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"typeParameter": [
+										{
+											"id": 173,
+											"name": "V",
+											"kind": 131072,
+											"kindString": "Type parameter",
+											"flags": {}
+										}
+									],
+									"parameters": [
+										{
+											"id": 174,
+											"name": "fn",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reflection",
+												"declaration": {
+													"id": 175,
+													"name": "__type",
+													"kind": 65536,
+													"kindString": "Type literal",
+													"flags": {},
+													"sources": [
+														{
+															"fileName": "program.types.ts",
+															"line": 29,
+															"character": 16
+														}
+													],
+													"signatures": [
+														{
+															"id": 176,
+															"name": "__type",
+															"kind": 4096,
+															"kindString": "Call signature",
+															"flags": {},
+															"parameters": [
+																{
+																	"id": 177,
+																	"name": "t",
+																	"kind": 32768,
+																	"kindString": "Parameter",
+																	"flags": {},
+																	"type": {
+																		"type": "reference",
+																		"id": 179,
+																		"name": "T"
+																	}
+																},
+																{
+																	"id": 178,
+																	"name": "u",
+																	"kind": 32768,
+																	"kindString": "Parameter",
+																	"flags": {},
+																	"type": {
+																		"type": "reference",
+																		"id": 180,
+																		"name": "U"
+																	}
+																}
+															],
+															"type": {
+																"type": "reference",
+																"id": 173,
+																"name": "V"
+															}
+														}
+													]
+												}
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"id": 126,
+										"typeArguments": [
+											{
+												"type": "reference",
+												"id": 179,
+												"name": "T"
+											},
+											{
+												"type": "reference",
+												"id": 173,
+												"name": "V"
+											}
+										],
+										"name": "ProgramI"
+									}
+								}
+							]
+						}
+					}
+				}
+			],
+			"groups": [
+				{
+					"title": "Properties",
+					"children": [
+						154,
+						165,
+						127,
+						135,
+						146,
+						150,
+						170
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "program.types.ts",
+					"line": 11,
+					"character": 10
+				}
+			],
+			"typeParameters": [
+				{
+					"id": 179,
+					"name": "T",
+					"kind": 131072,
+					"kindString": "Type parameter",
+					"flags": {}
+				},
+				{
+					"id": 180,
+					"name": "U",
+					"kind": 131072,
+					"kindString": "Type parameter",
+					"flags": {}
+				}
+			],
+			"signatures": [
+				{
+					"id": 181,
+					"name": "ProgramI",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"typeParameter": [
+						{
+							"id": 182,
+							"name": "V",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 183,
+							"name": "fn",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 184,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "program.types.ts",
+											"line": 12,
+											"character": 11
+										}
+									],
+									"signatures": [
+										{
+											"id": 185,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 186,
+													"name": "state",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "reference",
+														"id": 180,
+														"name": "U"
+													}
+												}
+											],
+											"type": {
+												"type": "reference",
+												"id": 182,
+												"name": "V"
+											}
+										}
+									]
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"id": 126,
+						"typeArguments": [
+							{
+								"type": "reference",
+								"id": 179,
+								"name": "T"
+							},
+							{
+								"type": "reference",
+								"id": 182,
+								"name": "V"
+							}
+						],
+						"name": "ProgramI"
+					}
+				}
+			]
+		},
+		{
+			"id": 187,
+			"name": "Call",
+			"kind": 4194304,
+			"kindString": "Type alias",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "program.types.ts",
+					"line": 32,
+					"character": 12
+				}
+			],
+			"typeParameters": [
+				{
+					"id": 197,
+					"name": "T",
+					"kind": 131072,
+					"kindString": "Type parameter",
+					"flags": {}
+				},
+				{
+					"id": 198,
+					"name": "U",
+					"kind": 131072,
+					"kindString": "Type parameter",
+					"flags": {}
+				},
+				{
+					"id": 199,
+					"name": "B",
+					"kind": 131072,
+					"kindString": "Type parameter",
+					"flags": {}
+				}
+			],
+			"type": {
+				"type": "reflection",
+				"declaration": {
+					"id": 188,
+					"name": "__type",
+					"kind": 65536,
+					"kindString": "Type literal",
+					"flags": {},
+					"children": [
+						{
+							"id": 189,
+							"name": "isCall",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "program.types.ts",
+									"line": 34,
+									"character": 3
+								}
+							],
+							"type": {
+								"type": "literal",
+								"value": true
+							}
+						},
+						{
+							"id": 190,
+							"name": "mergeStates",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "program.types.ts",
+									"line": 35,
+									"character": 3
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 191,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "program.types.ts",
+											"line": 35,
+											"character": 16
+										}
+									],
+									"signatures": [
+										{
+											"id": 192,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 193,
+													"name": "t",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "reference",
+														"id": 197,
+														"name": "T"
+													}
+												},
+												{
+													"id": 194,
+													"name": "u",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "reference",
+														"id": 198,
+														"name": "U"
+													}
+												}
+											],
+											"type": {
+												"type": "reference",
+												"id": 199,
+												"name": "B"
+											}
+										}
+									]
+								}
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								189,
+								190
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "program.types.ts",
+							"line": 32,
+							"character": 28
+						}
+					],
+					"signatures": [
+						{
+							"id": 195,
+							"name": "__type",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"parameters": [
+								{
+									"id": 196,
+									"name": "state",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"id": 197,
+										"name": "T"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"id": 199,
+								"name": "B"
+							}
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": 113,
+			"name": "hmmDesc",
+			"kind": 32,
+			"kindString": "Variable",
+			"flags": {
+				"isConst": true
+			},
+			"sources": [
+				{
+					"fileName": "junk/junk.ts",
+					"line": 15,
+					"character": 13
+				}
+			],
+			"type": {
+				"type": "reflection",
+				"declaration": {
+					"id": 114,
+					"name": "__type",
+					"kind": 65536,
+					"kindString": "Type literal",
+					"flags": {},
+					"children": [
+						{
+							"id": 119,
+							"name": "flags",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "junk/junk.ts",
+									"line": 20,
+									"character": 3
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 120,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "junk/junk.ts",
+											"line": 20,
+											"character": 10
+										}
+									]
+								}
+							},
+							"defaultValue": "{}"
+						},
+						{
+							"id": 115,
+							"name": "id",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "junk/junk.ts",
+									"line": 16,
+									"character": 3
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							},
+							"defaultValue": "106"
+						},
+						{
+							"id": 117,
+							"name": "kind",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "junk/junk.ts",
+									"line": 18,
+									"character": 3
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							},
+							"defaultValue": "64"
+						},
+						{
+							"id": 118,
+							"name": "kindString",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "junk/junk.ts",
+									"line": 19,
+									"character": 3
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							},
+							"defaultValue": "'Function'"
+						},
+						{
+							"id": 116,
+							"name": "name",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "junk/junk.ts",
+									"line": 17,
+									"character": 3
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							},
+							"defaultValue": "'hmm'"
+						},
+						{
+							"id": 121,
+							"name": "sources",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "junk/junk.ts",
+									"line": 21,
+									"character": 3
+								}
+							],
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "reflection",
+									"declaration": {
+										"id": 122,
+										"name": "__type",
+										"kind": 65536,
+										"kindString": "Type literal",
+										"flags": {},
+										"children": [
+											{
+												"id": 125,
+												"name": "character",
+												"kind": 1024,
+												"kindString": "Property",
+												"flags": {},
+												"sources": [
+													{
+														"fileName": "junk/junk.ts",
+														"line": 25,
+														"character": 9
+													}
+												],
+												"type": {
+													"type": "intrinsic",
+													"name": "number"
+												},
+												"defaultValue": "16"
+											},
+											{
+												"id": 123,
+												"name": "fileName",
+												"kind": 1024,
+												"kindString": "Property",
+												"flags": {},
+												"sources": [
+													{
+														"fileName": "junk/junk.ts",
+														"line": 23,
+														"character": 9
+													}
+												],
+												"type": {
+													"type": "intrinsic",
+													"name": "string"
+												},
+												"defaultValue": "'junk/junk.ts'"
+											},
+											{
+												"id": 124,
+												"name": "line",
+												"kind": 1024,
+												"kindString": "Property",
+												"flags": {},
+												"sources": [
+													{
+														"fileName": "junk/junk.ts",
+														"line": 24,
+														"character": 9
+													}
+												],
+												"type": {
+													"type": "intrinsic",
+													"name": "number"
+												},
+												"defaultValue": "7"
+											}
+										],
+										"groups": [
+											{
+												"title": "Properties",
+												"children": [
+													125,
+													123,
+													124
+												]
+											}
+										],
+										"sources": [
+											{
+												"fileName": "junk/junk.ts",
+												"line": 22,
+												"character": 6
+											}
+										]
+									}
+								}
+							},
+							"defaultValue": "..."
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								119,
+								115,
+								117,
+								118,
+								116,
+								121
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "junk/junk.ts",
+							"line": 15,
+							"character": 23
+						}
+					]
+				}
+			},
+			"defaultValue": "..."
+		},
+		{
+			"id": 73,
+			"name": "$",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "program.ts",
+					"line": 83,
+					"character": 16
+				}
+			],
+			"signatures": [
+				{
+					"id": 74,
+					"name": "$",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"typeParameter": [
+						{
+							"id": 75,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 76,
+							"name": "U",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 77,
+							"name": "fn",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 78,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "program.ts",
+											"line": 83,
+											"character": 28
+										}
+									],
+									"signatures": [
+										{
+											"id": 79,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 80,
+													"name": "state",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "reference",
+														"id": 75,
+														"name": "T"
+													}
+												}
+											],
+											"type": {
+												"type": "reference",
+												"id": 76,
+												"name": "U"
+											}
+										}
+									]
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"id": 126,
+						"typeArguments": [
+							{
+								"type": "reference",
+								"id": 75,
+								"name": "T"
+							},
+							{
+								"type": "reference",
+								"id": 76,
+								"name": "U"
+							}
+						],
+						"name": "ProgramI"
+					}
+				}
+			]
+		},
+		{
+			"id": 1,
+			"name": "$$",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "program.ts",
+					"line": 17,
+					"character": 16
+				}
+			],
+			"signatures": [
+				{
+					"id": 2,
+					"name": "$$",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"typeParameter": [
+						{
+							"id": 3,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 4,
+							"name": "U",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 5,
+							"name": "p",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 6,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "program.ts",
+											"line": 18,
+											"character": 6
+										}
+									],
+									"signatures": [
+										{
+											"id": 7,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"id": 126,
+												"typeArguments": [
+													{
+														"type": "reference",
+														"id": 3,
+														"name": "T"
+													},
+													{
+														"type": "reference",
+														"id": 4,
+														"name": "U"
+													}
+												],
+												"name": "ProgramI"
+											}
+										}
+									]
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"id": 126,
+						"typeArguments": [
+							{
+								"type": "reference",
+								"id": 3,
+								"name": "T"
+							},
+							{
+								"type": "reference",
+								"id": 4,
+								"name": "U"
+							}
+						],
+						"name": "ProgramI"
+					}
+				}
+			]
+		},
+		{
+			"id": 8,
+			"name": "$_",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "program.ts",
+					"line": 27,
+					"character": 16
+				},
+				{
+					"fileName": "program.ts",
+					"line": 30,
+					"character": 16
+				},
+				{
+					"fileName": "program.ts",
+					"line": 31,
+					"character": 16
+				}
+			],
+			"signatures": [
+				{
+					"id": 9,
+					"name": "$_",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"typeParameter": [
+						{
+							"id": 10,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 11,
+							"name": "U",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 12,
+							"name": "p",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 13,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "program.ts",
+											"line": 28,
+											"character": 6
+										}
+									],
+									"signatures": [
+										{
+											"id": 14,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"id": 126,
+												"typeArguments": [
+													{
+														"type": "reference",
+														"id": 10,
+														"name": "T"
+													},
+													{
+														"type": "reference",
+														"id": 11,
+														"name": "U"
+													}
+												],
+												"name": "ProgramI"
+											}
+										}
+									]
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 15,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"children": [
+								{
+									"id": 16,
+									"name": "isCall",
+									"kind": 1024,
+									"kindString": "Property",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "program.ts",
+											"line": 29,
+											"character": 20
+										}
+									],
+									"type": {
+										"type": "literal",
+										"value": true
+									}
+								}
+							],
+							"groups": [
+								{
+									"title": "Properties",
+									"children": [
+										16
+									]
+								}
+							],
+							"sources": [
+								{
+									"fileName": "program.ts",
+									"line": 29,
+									"character": 3
+								}
+							],
+							"signatures": [
+								{
+									"id": 17,
+									"name": "__type",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 18,
+											"name": "state",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"id": 10,
+												"name": "T"
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"id": 11,
+										"name": "U"
+									}
+								}
+							]
+						}
+					}
+				},
+				{
+					"id": 19,
+					"name": "$_",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"typeParameter": [
+						{
+							"id": 20,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 21,
+							"name": "U",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 22,
+							"name": "p",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"id": 126,
+								"typeArguments": [
+									{
+										"type": "reference",
+										"id": 20,
+										"name": "T"
+									},
+									{
+										"type": "reference",
+										"id": 21,
+										"name": "U"
+									}
+								],
+								"name": "ProgramI"
+							}
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 23,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"children": [
+								{
+									"id": 24,
+									"name": "isCall",
+									"kind": 1024,
+									"kindString": "Property",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "program.ts",
+											"line": 30,
+											"character": 62
+										}
+									],
+									"type": {
+										"type": "literal",
+										"value": true
+									}
+								}
+							],
+							"groups": [
+								{
+									"title": "Properties",
+									"children": [
+										24
+									]
+								}
+							],
+							"sources": [
+								{
+									"fileName": "program.ts",
+									"line": 30,
+									"character": 45
+								}
+							],
+							"signatures": [
+								{
+									"id": 25,
+									"name": "__type",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 26,
+											"name": "state",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"id": 20,
+												"name": "T"
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"id": 21,
+										"name": "U"
+									}
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"id": 86,
+			"name": "Program",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "program.ts",
+					"line": 93,
+					"character": 16
+				}
+			],
+			"signatures": [
+				{
+					"id": 87,
+					"name": "Program",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"typeParameter": [
+						{
+							"id": 88,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"id": 126,
+						"typeArguments": [
+							{
+								"type": "reference",
+								"id": 88,
+								"name": "T"
+							},
+							{
+								"type": "reference",
+								"id": 88,
+								"name": "T"
+							}
+						],
+						"name": "ProgramI"
+					}
+				}
+			]
+		},
+		{
+			"id": 108,
+			"name": "awaitTimeout",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "program.ts",
+					"line": 237,
+					"character": 13
+				}
+			],
+			"signatures": [
+				{
+					"id": 109,
+					"name": "awaitTimeout",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"parameters": [
+						{
+							"id": 110,
+							"name": "delay",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"typeArguments": [
+							{
+								"type": "intrinsic",
+								"name": "unknown"
+							}
+						],
+						"name": "Promise",
+						"qualifiedName": "Promise",
+						"package": "typescript"
+					}
+				}
+			]
+		},
+		{
+			"id": 42,
+			"name": "call",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "program.ts",
+					"line": 54,
+					"character": 16
+				},
+				{
+					"fileName": "program.ts",
+					"line": 58,
+					"character": 16
+				},
+				{
+					"fileName": "program.ts",
+					"line": 60,
+					"character": 16
+				}
+			],
+			"signatures": [
+				{
+					"id": 43,
+					"name": "call",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"typeParameter": [
+						{
+							"id": 44,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 45,
+							"name": "U",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 46,
+							"name": "B",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 47,
+							"name": "p",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 48,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "program.ts",
+											"line": 55,
+											"character": 6
+										}
+									],
+									"signatures": [
+										{
+											"id": 49,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"id": 126,
+												"typeArguments": [
+													{
+														"type": "reference",
+														"id": 44,
+														"name": "T"
+													},
+													{
+														"type": "reference",
+														"id": 45,
+														"name": "U"
+													}
+												],
+												"name": "ProgramI"
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 50,
+							"name": "mergeStates",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 51,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "program.ts",
+											"line": 56,
+											"character": 16
+										}
+									],
+									"signatures": [
+										{
+											"id": 52,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 53,
+													"name": "t",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "reference",
+														"id": 44,
+														"name": "T"
+													}
+												},
+												{
+													"id": 54,
+													"name": "u",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "reference",
+														"id": 45,
+														"name": "U"
+													}
+												}
+											],
+											"type": {
+												"type": "reference",
+												"id": 46,
+												"name": "B"
+											}
+										}
+									]
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"id": 187,
+						"typeArguments": [
+							{
+								"type": "reference",
+								"id": 44,
+								"name": "T"
+							},
+							{
+								"type": "reference",
+								"id": 45,
+								"name": "U"
+							},
+							{
+								"type": "reference",
+								"id": 46,
+								"name": "B"
+							}
+						],
+						"name": "Call"
+					}
+				},
+				{
+					"id": 55,
+					"name": "call",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"typeParameter": [
+						{
+							"id": 56,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 57,
+							"name": "U",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 58,
+							"name": "p",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 59,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "program.ts",
+											"line": 58,
+											"character": 30
+										}
+									],
+									"signatures": [
+										{
+											"id": 60,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"id": 126,
+												"typeArguments": [
+													{
+														"type": "reference",
+														"id": 56,
+														"name": "T"
+													},
+													{
+														"type": "reference",
+														"id": 57,
+														"name": "U"
+													}
+												],
+												"name": "ProgramI"
+											}
+										}
+									]
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"id": 187,
+						"typeArguments": [
+							{
+								"type": "reference",
+								"id": 56,
+								"name": "T"
+							},
+							{
+								"type": "reference",
+								"id": 57,
+								"name": "U"
+							},
+							{
+								"type": "reference",
+								"id": 57,
+								"name": "U"
+							}
+						],
+						"name": "Call"
+					}
+				}
+			]
+		},
+		{
+			"id": 96,
+			"name": "callWith",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "program.ts",
+					"line": 240,
+					"character": 16
+				}
+			],
+			"signatures": [
+				{
+					"id": 97,
+					"name": "callWith",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"typeParameter": [
+						{
+							"id": 98,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 99,
+							"name": "U",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 100,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 101,
+							"name": "withState",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 102,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "program.ts",
+											"line": 241,
+											"character": 14
+										}
+									],
+									"signatures": [
+										{
+											"id": 103,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 104,
+													"name": "t",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "reference",
+														"id": 98,
+														"name": "T"
+													}
+												}
+											],
+											"type": {
+												"type": "reference",
+												"id": 100,
+												"name": "S"
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 105,
+							"name": "p",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 106,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "program.ts",
+											"line": 242,
+											"character": 6
+										}
+									],
+									"signatures": [
+										{
+											"id": 107,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"id": 126,
+												"typeArguments": [
+													{
+														"type": "reference",
+														"id": 100,
+														"name": "S"
+													},
+													{
+														"type": "reference",
+														"id": 99,
+														"name": "U"
+													}
+												],
+												"name": "ProgramI"
+											}
+										}
+									]
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"id": 187,
+						"typeArguments": [
+							{
+								"type": "reference",
+								"id": 98,
+								"name": "T"
+							},
+							{
+								"type": "reference",
+								"id": 99,
+								"name": "U"
+							},
+							{
+								"type": "reference",
+								"id": 98,
+								"name": "T"
+							}
+						],
+						"name": "Call"
+					}
+				}
+			]
+		},
+		{
+			"id": 81,
+			"name": "clone",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "program.ts",
+					"line": 87,
+					"character": 16
+				}
+			],
+			"signatures": [
+				{
+					"id": 82,
+					"name": "clone",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"typeParameter": [
+						{
+							"id": 83,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 84,
+							"name": "U",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 85,
+							"name": "p",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"id": 126,
+								"typeArguments": [
+									{
+										"type": "reference",
+										"id": 83,
+										"name": "T"
+									},
+									{
+										"type": "reference",
+										"id": 84,
+										"name": "U"
+									}
+								],
+								"name": "ProgramI"
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"id": 126,
+						"typeArguments": [
+							{
+								"type": "reference",
+								"id": 83,
+								"name": "T"
+							},
+							{
+								"type": "reference",
+								"id": 84,
+								"name": "U"
+							}
+						],
+						"name": "ProgramI"
+					}
+				}
+			]
+		},
+		{
+			"id": 89,
+			"name": "compose",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "program.ts",
+					"line": 221,
+					"character": 16
+				}
+			],
+			"signatures": [
+				{
+					"id": 90,
+					"name": "compose",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"typeParameter": [
+						{
+							"id": 91,
+							"name": "A",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 92,
+							"name": "B",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 93,
+							"name": "C",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 94,
+							"name": "f",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"id": 126,
+								"typeArguments": [
+									{
+										"type": "reference",
+										"id": 91,
+										"name": "A"
+									},
+									{
+										"type": "reference",
+										"id": 92,
+										"name": "B"
+									}
+								],
+								"name": "ProgramI"
+							}
+						},
+						{
+							"id": 95,
+							"name": "g",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"id": 126,
+								"typeArguments": [
+									{
+										"type": "reference",
+										"id": 92,
+										"name": "B"
+									},
+									{
+										"type": "reference",
+										"id": 93,
+										"name": "C"
+									}
+								],
+								"name": "ProgramI"
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"id": 126,
+						"typeArguments": [
+							{
+								"type": "reference",
+								"id": 91,
+								"name": "A"
+							},
+							{
+								"type": "reference",
+								"id": 93,
+								"name": "C"
+							}
+						],
+						"name": "ProgramI"
+					}
+				}
+			]
+		},
+		{
+			"id": 27,
+			"name": "cond",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "program.ts",
+					"line": 40,
+					"character": 16
+				}
+			],
+			"signatures": [
+				{
+					"id": 28,
+					"name": "cond",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"typeParameter": [
+						{
+							"id": 29,
+							"name": "A",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 30,
+							"name": "B",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 31,
+							"name": "C",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 32,
+							"name": "D",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 33,
+							"name": "E",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 34,
+							"name": "F",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 35,
+							"name": "f",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"id": 126,
+								"typeArguments": [
+									{
+										"type": "reference",
+										"id": 29,
+										"name": "A"
+									},
+									{
+										"type": "reference",
+										"id": 30,
+										"name": "B"
+									}
+								],
+								"name": "ProgramI"
+							}
+						},
+						{
+							"id": 36,
+							"name": "pred",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 37,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "program.ts",
+											"line": 42,
+											"character": 9
+										}
+									],
+									"signatures": [
+										{
+											"id": 38,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 39,
+													"name": "b",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "reference",
+														"id": 30,
+														"name": "B"
+													}
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "boolean"
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 40,
+							"name": "onTrue",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"id": 126,
+								"typeArguments": [
+									{
+										"type": "reference",
+										"id": 30,
+										"name": "B"
+									},
+									{
+										"type": "reference",
+										"id": 31,
+										"name": "C"
+									}
+								],
+								"name": "ProgramI"
+							}
+						},
+						{
+							"id": 41,
+							"name": "onFalse",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"id": 126,
+								"typeArguments": [
+									{
+										"type": "reference",
+										"id": 30,
+										"name": "B"
+									},
+									{
+										"type": "reference",
+										"id": 32,
+										"name": "D"
+									}
+								],
+								"name": "ProgramI"
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"id": 126,
+						"typeArguments": [
+							{
+								"type": "reference",
+								"id": 29,
+								"name": "A"
+							},
+							{
+								"type": "union",
+								"types": [
+									{
+										"type": "reference",
+										"id": 33,
+										"name": "E"
+									},
+									{
+										"type": "reference",
+										"id": 34,
+										"name": "F"
+									}
+								]
+							}
+						],
+						"name": "ProgramI"
+					}
+				}
+			]
+		},
+		{
+			"id": 61,
+			"name": "executeArray",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "program.ts",
+					"line": 73,
+					"character": 16
+				}
+			],
+			"signatures": [
+				{
+					"id": 62,
+					"name": "executeArray",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"typeParameter": [
+						{
+							"id": 63,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 64,
+							"name": "ps",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "reference",
+									"id": 126,
+									"typeArguments": [
+										{
+											"type": "reference",
+											"id": 63,
+											"name": "T"
+										},
+										{
+											"type": "intrinsic",
+											"name": "unknown"
+										}
+									],
+									"name": "ProgramI"
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"id": 187,
+						"typeArguments": [
+							{
+								"type": "reference",
+								"id": 63,
+								"name": "T"
+							},
+							{
+								"type": "intrinsic",
+								"name": "unknown"
+							},
+							{
+								"type": "reference",
+								"id": 63,
+								"name": "T"
+							}
+						],
+						"name": "Call"
+					}
+				}
+			]
+		},
+		{
+			"id": 111,
+			"name": "hmm",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "junk/junk.ts",
+					"line": 11,
+					"character": 16
+				}
+			],
+			"signatures": [
+				{
+					"id": 112,
+					"name": "hmm",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "code",
+								"text": "```ts\nhmm();\n```"
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@returns",
+								"content": [
+									{
+										"kind": "text",
+										"text": "The answer to life, the universe, and everything."
+									}
+								]
+							}
+						]
+					},
+					"type": {
+						"type": "intrinsic",
+						"name": "number"
+					}
+				}
+			]
+		},
+		{
+			"id": 65,
+			"name": "lift",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {},
+			"sources": [
+				{
+					"fileName": "program.ts",
+					"line": 80,
+					"character": 16
+				}
+			],
+			"signatures": [
+				{
+					"id": 66,
+					"name": "lift",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"typeParameter": [
+						{
+							"id": 67,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 68,
+							"name": "U",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 69,
+							"name": "fn",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 70,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "program.ts",
+											"line": 80,
+											"character": 31
+										}
+									],
+									"signatures": [
+										{
+											"id": 71,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 72,
+													"name": "state",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "reference",
+														"id": 67,
+														"name": "T"
+													}
+												}
+											],
+											"type": {
+												"type": "reference",
+												"id": 68,
+												"name": "U"
+											}
+										}
+									]
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"id": 126,
+						"typeArguments": [
+							{
+								"type": "reference",
+								"id": 67,
+								"name": "T"
+							},
+							{
+								"type": "reference",
+								"id": 68,
+								"name": "U"
+							}
+						],
+						"name": "ProgramI"
+					}
+				}
+			]
+		}
+	],
+	"groups": [
+		{
+			"title": "Interfaces",
+			"children": [
+				126
+			]
+		},
+		{
+			"title": "Type Aliases",
+			"children": [
+				187
+			]
+		},
+		{
+			"title": "Variables",
+			"children": [
+				113
+			]
+		},
+		{
+			"title": "Functions",
+			"children": [
+				73,
+				1,
+				8,
+				86,
+				108,
+				42,
+				96,
+				81,
+				89,
+				27,
+				61,
+				111,
+				65
+			]
+		}
+	],
+	"sources": [
+		{
+			"fileName": "program.ts",
+			"line": 3,
+			"character": 0
+		}
+	]
+}

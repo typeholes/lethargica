@@ -1,0 +1,16 @@
+{
+   "compilerOptions": {
+      "allowImportingTsExtensions": true,
+      "target": "ESNext",
+      "module": "ESNext",
+      "lib": ["ES2022", "DOM"]
+   },
+   "typedocOptions": {
+      "entryPoints": ["./ts/program.ts"],
+      "out": "../docs",
+      "darkHighlightTheme": "github-dark",
+      "exclude": "**/*vue*",
+      "name": "Lethargica",
+      "json": "../doc.json"
+   }
+}
